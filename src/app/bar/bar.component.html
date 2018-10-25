@@ -1,0 +1,10 @@
+<p>
+  bar works!
+</p>
+<ng-container *ngFor="let bar of bars$ | async">
+  <section>
+    <p>{{bar.id}}</p>
+    <p>{{bar.data}}</p>
+  </section>
+  <hr />
+</ng-container>

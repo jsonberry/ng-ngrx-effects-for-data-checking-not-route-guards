@@ -1,0 +1,16 @@
+<p>
+  foo works!
+</p>
+
+<ng-container *ngIf="!(loaded$ | async)">
+  <h1>Getting Foos...</h1>
+  <p>Just wait a dang minute, OK!?</p>
+</ng-container>
+
+<ng-container *ngFor="let foo of foos$ | async">
+  <section>
+    <p>{{foo.id}}</p>
+    <p>{{foo.data}}</p>
+  </section>
+  <hr />
+</ng-container>
