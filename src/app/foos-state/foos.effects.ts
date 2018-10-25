@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
-import { Store, select } from '@ngrx/store'
-import { of, iif, EMPTY } from 'rxjs'
+import { select, Store } from '@ngrx/store'
+import { EMPTY, iif, of } from 'rxjs'
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators'
 import { FooService } from '../foo.service'
 import {
@@ -10,7 +10,6 @@ import {
   LoadFoosSuccess,
 } from './foos.actions'
 import { FoosQuery } from './foos.selectors'
-// import { FoosQuery } from './foos.selectors';
 
 @Injectable()
 export class FoosEffects {
@@ -20,9 +19,9 @@ export class FoosEffects {
     withLatestFrom(this.store.pipe(select(FoosQuery.getLoaded))),
     switchMap(([, loaded]) => {
       return iif(
-        () => loaded, // Is everything already loaded?
-        EMPTY, // OK, just complete the stream immediately using the EMPTY helper
-        this.service.getFoos().pipe( // Not loaded yet? OK! Go get the data!
+        () => loaded,
+        EMPTY,
+        this.service.getFoos().pipe(
           map(foos => new LoadFoosSuccess({ foos })),
           catchError(error => of(new LoadFoosFailure({ error }))),
         ),
